@@ -22,6 +22,7 @@ public class Simulator {
     public void setAlive(int x, int y) {
         this.board[x][y] = 1;
     }
+
     public void setDead(int x, int y) {
         this.board[x][y] = 0;
     }
@@ -35,6 +36,18 @@ public class Simulator {
         }
 
         return this.board[x][y];
+    }
+
+    public int countAliveNeighbours(int x, int y) {
+        int counter = 0;
+        for (int i = -1; i < 2; i++) {
+            for (int j = -1; j < 2; j++) {
+                if (!(i == 0 && j==0)){
+                    counter += getCellState(x - i, y - j);
+                }
+            }
+        }
+        return counter;
     }
 
 }
