@@ -1,6 +1,9 @@
 package org.openjfx;
 
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -28,4 +31,38 @@ class SimulatorTest {
             simulator.setAlive(cell.getX(), cell.getY());
         }
     }
+
+    @Test
+    void getWidthTest() {
+        assertEquals(10, simulator.getWidth());
+    }
+
+    @Test
+    void getHeightTest() {
+        assertEquals(10, simulator.getHeight());
+    }
+
+    @Test
+    void setAliveTest() {
+        simulator.setAlive(3, 2);
+        assertEquals(1, simulator.getCellState(3,2));
+    }
+
+    @Test
+    void setDeadTest() {
+        simulator.setDead(3, 3);
+        assertEquals(0, simulator.getCellState(3,3));
+    }
+
+    @Test
+    @DisplayName("Testing state if alive or dead")
+    void getCellStateTest() {
+        assertAll(
+                () -> Assertions.assertEquals(1, simulator.getCellState(5,6), "alive"),
+                () -> Assertions.assertEquals(0, simulator.getCellState(4,4), "dead"),
+                () -> Assertions.assertEquals(1, simulator.getCellState(5,2), "alive")
+        );
+    }
+
+
 }
