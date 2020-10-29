@@ -103,12 +103,13 @@ public class View extends VBox {
         }
     }
 
+    private void labelStyle(){
+        this.label.setStyle("-fx-border-width: 2px; -fx-text-fill: #000000; -fx-font-size: 15px; -fx-pref-width: 400;");
+    }
+
     private void buttonStyle(){
         this.button.setStyle("-fx-border-color: #ffffff; -fx-border-width: 2px; -fx-text-fill: #ffffff;" +
                 "-fx-font-size: 15px; -fx-background-color: #066495; -fx-pref-width: 400;" +
                 "-fx-cursor: hand; -fx-border-radius: 4px;");
-    }
-    private void labelStyle(){
-        this.label.setStyle("-fx-border-width: 2px; -fx-text-fill: #000000; -fx-font-size: 15px; -fx-pref-width: 400;");
     }
 }
