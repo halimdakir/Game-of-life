@@ -5,6 +5,8 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -62,6 +64,64 @@ class SimulatorTest {
                 () -> Assertions.assertEquals(0, simulator.getCellState(4,4), "dead"),
                 () -> Assertions.assertEquals(1, simulator.getCellState(5,2), "alive")
         );
+    }
+
+    @Test
+    void countAliveNeighboursTest() {
+        assertAll(
+                () -> Assertions.assertEquals(2, simulator.countAliveNeighbours(5,6), "Has 2 alive neighbours"),
+                () -> Assertions.assertEquals(1, simulator.countAliveNeighbours(5,2), "Has 1 alive neighbours"),
+                () -> Assertions.assertEquals(5, simulator.countAliveNeighbours(2,8), "Has 5 alive neighbours")
+        );
+    }
+
+    @Test
+    @DisplayName("Testing the same cell in different generation")
+    void nextGenerationStep() {
+        assertEquals(1, simulator.getCellState(3,2), "it is alive in first generation");
+        simulator.nextGenerationStep();
+        assertEquals(0, simulator.getCellState(3,2), "it should be dead in next generation");
+    }
+
+    @Test
+    void checkAllCellsToApplyTheRulesTest() {
+    }
+
+    @Test
+    void rulesGameOfLifeTest() {
+
+    }
+
+    @Test   //Test private method.
+    @DisplayName("Testing 'Private method' which return cases")
+    void casesWhenStateIsAliveTest() throws NoSuchMethodException, InvocationTargetException, IllegalAccessException{
+        Method method = Simulator.class.getDeclaredMethod("casesWhenStateIsAlive", int.class);
+        method.setAccessible(true);
+        int casesReturn = (int) method.invoke(simulator, 3);
+        int expectedReturn = 2;
+        Assertions.assertEquals(expectedReturn, casesReturn, "True");
+    }
+
+    @Test
+    void stateIsAliveRulesTest() {
+        int actual = simulator.stateIsAliveRules(1, board,5,2);
+        int expected = 0; //0 means dead
+        assertEquals(expected, actual, "Any live cell with fewer than two live neighbors dies, as if caused by underpopulation");
+
+        int actual1 = simulator.stateIsAliveRules(5, board,2,8);
+        int expected1 = 0; //0 means dead
+        assertEquals(expected1, actual1, "Any live cell with more than three live neighbors dies, as if by overcrowding.");
+
+        int actual2 = simulator.stateIsAliveRules(3, board,1,9);
+        int expected2 = 1; //1 means alive
+        assertEquals(expected2, actual2, " Any live cell with two or three live neighbors lives on to the next generation");
+    }
+
+    @Test
+    void stateIsDeadRulesTest() {
+        int actual = simulator.stateIsDeadRules(3, board,6,5);
+        int expected = 1; //1 means alive
+        assertEquals(expected, actual, "Any dead cell with exactly three live neighbors becomes a live cell");
     }
 
 
