@@ -14,7 +14,7 @@ public class App extends Application {
     @Override
     public void start(Stage stage) {
         View view = new View();
-        Scene scene = new Scene(view, 400, 438);
+        Scene scene = new Scene(view, 400, 458);
         stage.setScene(scene);
         stage.show();
         view.drawOnCanvas();

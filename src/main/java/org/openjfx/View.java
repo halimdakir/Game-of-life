@@ -3,12 +3,16 @@ package org.openjfx;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.control.Separator;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
+import javafx.scene.text.TextAlignment;
 import javafx.scene.transform.Affine;
 
 public class View extends VBox {
+    private int counter = 1;
+    private final Label label;
     private final Separator separator;
     private final Button button;
     private final Canvas canvas;
@@ -17,6 +21,8 @@ public class View extends VBox {
 
 
     public View() {
+        this.label= new Label(" Generation : "+ counter);
+
         this.canvas = new Canvas(400, 400);
         this.simulator = new Simulator(10, 10);
         this.button = new Button("Next Generation");
@@ -24,6 +30,7 @@ public class View extends VBox {
         this.affine = new Affine();
 
         buttonStyle();
+        labelStyle();
         btnOnAction();
         addAllChildren();
         setUpAffine();
@@ -31,7 +38,7 @@ public class View extends VBox {
     }
 
     private void addAllChildren(){
-        this.getChildren().addAll(this.canvas, this.separator, this.button);
+        this.getChildren().addAll(this.label, this.canvas, this.separator, this.button);
     }
 
     private void setUpAffine(){
@@ -42,6 +49,8 @@ public class View extends VBox {
         this.button.setOnAction(actionEvent -> {
             simulator.nextGenerationStep();
             drawOnCanvas();
+            counter++;
+            this.label.setText(" Generation :"+ counter);
         });
     }
 
@@ -98,5 +107,8 @@ public class View extends VBox {
         this.button.setStyle("-fx-border-color: #ffffff; -fx-border-width: 2px; -fx-text-fill: #ffffff;" +
                 "-fx-font-size: 15px; -fx-background-color: #066495; -fx-pref-width: 400;" +
                 "-fx-cursor: hand; -fx-border-radius: 4px;");
+    }
+    private void labelStyle(){
+        this.label.setStyle("-fx-border-width: 2px; -fx-text-fill: #000000; -fx-font-size: 15px; -fx-pref-width: 400;");
     }
 }
