@@ -1,6 +1,6 @@
 package org.openjfx;
 
-public class SystemInfo {
+public class Simulator {
 
     public static String javaVersion() {
         return System.getProperty("java.version");
