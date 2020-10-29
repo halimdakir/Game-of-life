@@ -4,14 +4,20 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.InjectMocks;
+import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertAll;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.mockito.Mockito.*;
 
+@ExtendWith(MockitoExtension.class)
 class SimulatorTest {
     Simulator simulator;
     int [][] board;
@@ -84,11 +90,22 @@ class SimulatorTest {
     }
 
     @Test
+    @DisplayName("Mock doNothing Family of methods")
     void checkAllCellsToApplyTheRulesTest() {
+        simulator = mock(Simulator.class);
+        doNothing().when(simulator).checkAllCellsToApplyTheRules(isA(int.class), isA(int.class), isA(int[][].class));
+        simulator.checkAllCellsToApplyTheRules(3,2,board);
+        simulator.checkAllCellsToApplyTheRules(5,7,board);
+        verify(simulator, times(1)).checkAllCellsToApplyTheRules(3,2,board);
     }
 
     @Test
+    @DisplayName("Mock doCallRealMethod Family of methods")
     void rulesGameOfLifeTest() {
+        simulator = mock(Simulator.class);
+        doCallRealMethod().when(simulator).rulesGameOfLife(isA(int.class), isA(int.class), isA(int[][].class));
+        simulator.rulesGameOfLife(5, 6,board);
+        verify(simulator, times(1)).rulesGameOfLife(5, 6,board);
 
     }
 
